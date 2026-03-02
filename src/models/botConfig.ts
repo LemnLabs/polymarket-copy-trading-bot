@@ -10,13 +10,11 @@ const botConfigSchema = new Schema({
     privateKey: { type: String, required: true },
     proxyWallet: { type: String, required: false },
     userAddress: { type: String, required: false },
+    fullEnv: { type: Schema.Types.Mixed, required: false },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now },
-}, { 
-    autoIndex: false 
 });
 
-// Update the updatedAt field before saving
 botConfigSchema.pre('save', function (next) {
     this.updatedAt = new Date();
     next();
