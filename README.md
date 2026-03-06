@@ -6,7 +6,7 @@ Professional Polymarket Bot for Automated Arbitrage Trading for suitable income
 
 ---
 
-Polymarket Arbitrage Bot - The ultimate automated trading solution for Polymarket arbitrage opportunities. This Polymarket trading bot automatically scans markets, detects arbitrage opportunities, and executes profitable trades when Yes/No ticket prices sum to less than 1
+Polymarket Arbitrage Bot - The ultimate automated trading solution for Polymarket arbitrage opportunities. This Polymarket trading bot automatically scans markets, detects arbitrage opportunities, and executes profitable trades when Yes/No ticket prices sum to less than $1.00
 
 A **polymarket copy trading bot** that monitors a target wallet and mirrors its trades from your proxy wallet, via Polymarket **Central Limit Order Book (CLOB)** API.
 It also has it's own strategy for trading on **politics**, **sports**, **weather**, **crypto** markets
