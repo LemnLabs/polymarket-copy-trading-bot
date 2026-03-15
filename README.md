@@ -1,80 +1,78 @@
-# Parz1vaI:Polymarket Copy Trading Bot
+# Parz1vaI: Polymarket Copy Trading Engine
 
-**Replicate the Smart Money. Automate the Alpha.**
+**High-Frequency Whale Replication Tool**
 
-This is a bespoke, high-frequency trading engine engineered specifically to replicate the positions of **Parz1vaI** (`0xB10047d6a254B2EbB306D7a7D13Bf59171AB6461`)—one of Polymarket's most prolific and profitable whales.
+This is a specialized execution engine designed to mirror the trading activity of **Parz1vaI** (`0xB10047d6a254B2EbB306D7a7D13Bf59171AB6461`) on Polymarket. It provides institutional-grade infrastructure for traders seeking to automate their exposure to high-conviction whale movements.
 
-Designed for high-net-worth individuals and institutional capital, this system offers sub-second latency execution to enter positions alongside smart money before the market reacts.
+## Core Functionality
 
-## Why Copy Parz1vaI?
+The engine operates as a low-latency execution layer between the target wallet and your portfolio. It is not an "AI" or "black box" system; it is a precision tool for direct trade replication.
 
-Parz1vaI represents the "Smart Money" on Polymarket. Their positions often precede major market moves. Manually copying these trades is impossible due to the speed of execution required.
+-   **Direct CLOB Integration**: Bypasses standard UI latency by interacting directly with Polymarket's Central Limit Order Book.
+-   **Proportional Execution**: Automatically calculates position sizes based on your available capital relative to the target's trade size.
+-   **Slippage Protection**: Configurable thresholds to prevent execution during adverse price movements.
+-   **Audit Logging**: Comprehensive MongoDB records of all detected signals and executed trades.
 
-**The Parz1vaI Protocol automates this edge.**
+## Configuration Manual
 
-## Institutional Capabilities
-
--   **Whale-Specific Optimization**: Tuned specifically for Parz1vaI's high-volume trading patterns.
--   **Sub-Second Latency**: Direct connection to Polymarket's CLOB (Central Limit Order Book) to front-run retail reaction.
--   **Proportional Sizing**: Algorithmic position sizing that scales Parz1vaI's conviction to your capital base (Recommended: 10k+ USDC liquidity).
--   **Slippage Protection**: Institutional-grade guardrails to prevent execution during high volatility or low liquidity events.
--   **Non-Custodial**: You retain full control of your funds in your own Proxy/Safe wallet.
-
-## Quick Start for Capital Deployment
-
-**Prerequisites:**
+### Prerequisites
 -   Node.js 18+
--   MongoDB (for trade audit logs)
--   **Funded Polygon Wallet (USDC)** - Sufficient liquidity required for optimal position sizing.
+-   MongoDB (Local or Remote)
+-   Polygon RPC Endpoint (Private recommended)
+-   Funded Polygon Wallet (USDC)
 
-### 1. Installation
+### Installation
 
 ```bash
-git clone https://github.com/LemnLabs/polymarket-trading-bot.git
+git clone https://github.com/LemnLabs/polymarket-copy-trading-Parz1val.git
 cd polymarket-trading-bot
 npm install
 ```
 
-### 2. Configuration
+### Setup Guide
 
-Configure your execution environment.
+1.  **Environment Configuration**
+    Copy the template configuration:
+    ```bash
+    cp env.example .env
+    ```
 
-```bash
-cp env.example .env
-```
+2.  **Wallet Integration**
+    Edit `.env` to input your execution credentials.
+    *   `USER_ADDRESS`: `0xB10047d6a254B2EbB306D7a7D13Bf59171AB6461` (Target: Parz1vaI)
+    *   `PROXY_WALLET`: Your execution wallet address.
+    *   `PRIVATE_KEY`: The private key authorized to sign orders for the Proxy Wallet.
 
-**Edit `.env`**:
--   `USER_ADDRESS`: Pre-configured to `0xB10047d6a254B2EbB306D7a7D13Bf59171AB6461` (Parz1vaI).
--   `PROXY_WALLET`: Your execution wallet address.
--   `PRIVATE_KEY`: Your secure controller key.
--   `RPC_URL`: Use a private RPC (Alchemy/Infura) for maximum speed.
+3.  **Execution Parameters**
+    *   `FETCH_INTERVAL`: Set to `1` (second) for standard operation.
+    *   `RETRY_LIMIT`: Recommended `3` for reliability without spamming.
+    *   `TOO_OLD_TIMESTAMP`: Prevents execution of stale data (e.g., `24` hours).
 
-### 3. Launch
+### Deployment
 
-Deploy the engine.
+Start the engine in production mode:
 
 ```bash
 npm run build
 npm start
 ```
 
-## Performance Architecture
+## Operational Logic
 
-The engine operates on a continuous high-frequency loop:
+The system follows a strict, deterministic execution path:
 
-1.  **Signal Detection**: Monitors Parz1vaI's on-chain activity in real-time.
-2.  **Alpha Validation**: Filters out noise and validates trade conviction.
-3.  **Execution**: Calculates proportional size based on your `PROXY_WALLET` balance and executes via CLOB.
-4.  **Audit**: Logs all entries and exits to MongoDB for performance review.
+1.  **Monitor**: Polls the Polymarket Data API for new `TRADE` events from `USER_ADDRESS`.
+2.  **Filter**: Validates the trade against historical records in MongoDB to prevent duplication.
+3.  **Calculate**: Determines the appropriate order size based on your `PROXY_WALLET` USDC balance.
+4.  **Execute**: Submits a Fill-or-Kill (FOK) order to the CLOB.
+5.  **Verify**: Confirms order status and logs the result.
 
-## Risk Disclosure
+## Risk Management
 
-*This software is a professional tool for sophisticated traders. Copying whale wallets involves market risk, including the potential for loss of principal. Past performance of Parz1vaI does not guarantee future results.*
-
-## Institutional Support
-
-For custom integrations, managed deployment, or strategy consultation:
--   Telegram: [@lemnlabs](https://t.me/lemnlabs)
+This tool automates execution but does not eliminate market risk.
+-   **Liquidity Risk**: Large orders may suffer slippage.
+-   **Smart Contract Risk**: Interaction with DeFi protocols carries inherent risks.
+-   **Capital at Risk**: Only deploy capital you can afford to lose.
 
 ## License
 
